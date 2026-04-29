@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroSense AI Assistant</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <div class="logo">
+                <i data-lucide="leaf"></i>
+                <h1>AgroSense AI</h1>
+            </div>
+            <p>Your Intelligent Agronomic Advisor</p>
+
+            <!-- Language selector -->
+            <div class="lang-bar">
+                <i data-lucide="globe"></i>
+                <select id="lang-select" title="Response Language">
+                    <option value="en">English</option>
+                    <option value="hi">Hindi</option>
+                    <option value="pa">Punjabi</option>
+                    <option value="mr">Marathi</option>
+                    <option value="ta">Tamil</option>
+                    <option value="te">Telugu</option>
+                    <option value="gu">Gujarati</option>
+                    <option value="kn">Kannada</option>
+                </select>
+            </div>
+        </header>
+
+        <main class="dashboard">
+            <!-- ── Left Panel: Image Upload & Diagnosis ── -->
+            <section class="upload-section">
+                <h2>Crop Diagnosis</h2>
+
+                <div class="drop-zone" id="drop-zone">
+                    <i data-lucide="image-plus" class="upload-icon"></i>
+                    <p>Drag &amp; drop a leaf image here or <span>browse</span></p>
+                    <input type="file" id="file-input" accept="image/jpeg, image/png">
+                </div>
+
+                <div class="preview-container hidden" id="preview-container">
+                    <img id="image-preview" src="" alt="Preview">
+                    <button class="icon-btn" id="remove-image" title="Remove image">
+                        <i data-lucide="x"></i>
+                    </button>
+                </div>
+
+                <div class="disease-result hidden" id="disease-result">
+                    <h3>Diagnosis Result</h3>
+                    <div class="result-card">
+                        <div class="result-row">
+                            <span class="label">Plant:</span>
+                            <span class="value" id="res-plant">-</span>
+                        </div>
+                        <div class="result-row">
+                            <span class="label">Condition:</span>
+                            <span class="value highlight" id="res-disease">-</span>
+                        </div>
+                        <div class="result-row">
+                            <span class="label">Confidence:</span>
+                            <span class="value" id="res-confidence">-</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── Right Panel: Chat + Voice ── -->
+            <section class="chat-section">
+                <!-- Tab bar -->
+                <div class="tab-bar">
+                    <button class="tab active" id="tab-text" onclick="switchTab('text')">
+                        <i data-lucide="message-circle"></i> Text Chat
+                    </button>
+                    <button class="tab" id="tab-voice" onclick="switchTab('voice')">
+                        <i data-lucide="mic"></i> Voice Assistant
+                    </button>
+                </div>
+
+                <!-- ─── TEXT CHAT ─── -->
+                <div id="panel-text" class="tab-panel">
+                    <div class="chat-box" id="chat-box">
+                        <div class="message system">
+                            <div class="avatar"><i data-lucide="bot"></i></div>
+                            <div class="bubble">Hello! I am your AgroSense AI advisor. Upload a crop image for disease diagnosis, or ask me any farming-related questions directly.</div>
+                        </div>
+                    </div>
+                    <div class="input-area">
+                        <input type="text" id="chat-input" placeholder="Ask about fertilizers, treatments, or general advice...">
+                        <button id="send-btn" class="send-btn" title="Send Message"><i data-lucide="send"></i></button>
+                    </div>
+                </div>
+
+                <!-- ─── VOICE ASSISTANT ─── -->
+                <div id="panel-voice" class="tab-panel hidden">
+                    <div class="voice-panel">
+                        <!-- Animated ring -->
+                        <div class="mic-ring" id="mic-ring">
+                            <div class="ring r1"></div>
+                            <div class="ring r2"></div>
+                            <div class="ring r3"></div>
+                            <button id="mic-btn" class="mic-btn" title="Hold to record">
+                                <i data-lucide="mic" id="mic-icon"></i>
+                            </button>
+                        </div>
+
+                        <p class="mic-hint" id="mic-hint">Click the mic to start speaking</p>
+
+                        <!-- Status bar -->
+                        <div class="voice-status" id="voice-status">
+                            <span id="voice-status-text">Ready</span>
+                        </div>
+
+                        <!-- Transcription box -->
+                        <div class="voice-transcript-box hidden" id="voice-transcript-box">
+                            <div class="vt-label">You said:</div>
+                            <div class="vt-text" id="voice-transcript-text"></div>
+                        </div>
+
+                        <!-- Audio player for TTS response -->
+                        <div class="voice-response-box hidden" id="voice-response-box">
+                            <div class="vr-label">
+                                <i data-lucide="volume-2"></i>
+                                AI Response
+                            </div>
+                            <audio id="voice-audio-player" controls></audio>
+                            <div class="vr-text" id="voice-response-text"></div>
+                        </div>
+
+                        <div class="voice-actions">
+                            <!-- Ask Again button (shown after response) -->
+                            <button class="ask-again-btn hidden" id="ask-again-btn" onclick="resetVoicePanel()">
+                                <i data-lucide="refresh-ccw"></i> Ask Another Question
+                            </button>
+
+                            <!-- Stop Speaking button (shown while AI is talking) -->
+                            <button class="stop-speak-btn hidden" id="stop-speak-btn" onclick="stopSpeaking()">
+                                <i data-lucide="square"></i> Stop
+                            </button>
+
+                            <!-- Pause/Resume button (shown while AI is talking) -->
+                            <button class="pause-resume-btn hidden" id="pause-resume-btn" onclick="togglePauseResume()">
+                                <i data-lucide="pause" id="pause-icon"></i> <span id="pause-text">Pause</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

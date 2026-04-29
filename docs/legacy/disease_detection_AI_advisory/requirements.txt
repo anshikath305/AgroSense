@@ -1,0 +1,14 @@
+torch
+torchvision
+transformers
+datasets
+Pillow
+flask
+flask-cors
+python-dotenv
+google-genai
+twilio
+requests
+kaggle
+elevenlabs
+gTTS

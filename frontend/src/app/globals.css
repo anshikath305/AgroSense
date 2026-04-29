@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+:root {
+  --background: #fbf9f4;
+  --foreground: #1b1c19;
+  --primary: #01261f;
+  --primary-soft: #1a3c34;
+  --sage: #83a69c;
+  --mint: #c5eadf;
+  --earth: #7b5800;
+  --gold: #ffc95e;
+  --sky: #8bd3f7;
+  --cream: #f5f3ee;
+  --line: #d7ded9;
+  --muted: #59635f;
+  --danger: #ba1a1a;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-soft: var(--primary-soft);
+  --color-sage: var(--sage);
+  --color-mint: var(--mint);
+  --color-earth: var(--earth);
+  --color-gold: var(--gold);
+  --color-sky: var(--sky);
+  --color-cream: var(--cream);
+  --color-line: var(--line);
+  --color-muted: var(--muted);
+  --color-danger: var(--danger);
+  --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", serif;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+::selection {
+  background: rgba(255, 201, 94, 0.4);
+}
+
+.container-frame {
+  width: min(100% - 32px, 1180px);
+  margin-inline: auto;
+}
+
+.glass-panel {
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: rgba(251, 249, 244, 0.74);
+  backdrop-filter: blur(20px);
+}
+
+.glass-panel-dark {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(1, 38, 31, 0.62);
+  backdrop-filter: blur(20px);
+}
+
+.field-control {
+  min-height: 46px;
+  width: 100%;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(113, 121, 118, 0.24);
+  background: rgba(255, 255, 255, 0.72);
+  padding: 0.75rem 0.9rem;
+  color: var(--primary);
+  outline: none;
+  transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+}
+
+.field-control:focus {
+  border-color: var(--sage);
+  background: white;
+  box-shadow: 0 0 0 4px rgba(197, 234, 223, 0.6);
+}
+
+.page-band {
+  padding-block: 88px;
+}
