@@ -1,23 +1,31 @@
 services:
   - type: web
     name: agrosense-backend
-    env: python
-    rootDir: backend
-    buildCommand: pip install -r requirements.txt
-    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    runtime: python
+    buildCommand: cd backend && pip install -r requirements.txt
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: PYTHON_VERSION
-        value: 3.11.0
+        value: "3.11.0"
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: HF_TOKEN
+        sync: false
+      - key: ALLOWED_ORIGINS
+        fromService:
+          type: web
+          name: agrosense-frontend
+          envVarKey: RENDER_EXTERNAL_URL
 
   - type: web
     name: agrosense-frontend
-    env: node
+    runtime: node
     rootDir: frontend
     buildCommand: npm install && npm run build
     startCommand: npm run start
     envVars:
       - key: NODE_VERSION
-        value: 20.19.0
+        value: "20.19.0"
       - key: NEXT_PUBLIC_API_URL
         fromService:
           type: web
