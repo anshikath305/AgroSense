@@ -3,14 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "engines": {
-    "node": "^20.19.0 || ^22.13.0 || >=24",
+    "node": ">=20",
     "npm": ">=10"
   },
   "scripts": {
     "clean": "rm -rf .next",
     "clean:deps": "rm -rf node_modules .next && npm ci",
-    "dev": "next dev --webpack --disable-source-maps",
-    "build": "next build --webpack",
+    "dev": "next dev",
+    "build": "next build",
     "start": "next start",
     "lint": "eslint"
   },
