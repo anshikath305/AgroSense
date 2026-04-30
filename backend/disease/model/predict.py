@@ -28,8 +28,9 @@ def load_model_and_classes():
         
     _DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     
-    # We use a highly robust, fine-tuned Vision Transformer (ViT) for much higher accuracy
-    model_id = "Abhiram4/PlantDiseaseDetectorVit2"
+    # We use a highly optimized MobileNetV2 model (only 2.2 MB!) instead of ViT (343 MB)
+    # This prevents Out-Of-Memory (OOM) errors on Render's free 512MB tier
+    model_id = "ozair23/mobilenet_v2_1.0_224-finetuned-plantdisease"
     
     # Load the model directly from HuggingFace
     _MODEL = AutoModelForImageClassification.from_pretrained(model_id)
