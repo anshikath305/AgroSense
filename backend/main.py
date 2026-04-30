@@ -38,6 +38,17 @@ app.include_router(disease_router, prefix="/disease", tags=["Disease Detection"]
 app.include_router(fertilizer_router, prefix="/fertilizer", tags=["Fertilizer Prediction"])
 app.include_router(advisory_router, prefix="/advisory", tags=["AI Advisory"])
 
+@app.on_event("startup")
+async def startup_event():
+    import logging
+    logging.info("Pre-loading disease detection model to avoid timeouts...")
+    try:
+        from .disease.model.predict import load_model_and_classes
+        load_model_and_classes()
+        logging.info("Disease detection model pre-loaded successfully.")
+    except Exception as e:
+        logging.error(f"Failed to pre-load model on startup: {e}")
+
 
 @app.post("/analyze", tags=["Disease Detection"])
 async def analyze(request: Request) -> dict:
